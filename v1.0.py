@@ -3,14 +3,6 @@ import requests
 import json
 import pandas as pd
 import re
-import pycountry
-
-def convert_country_code(code):
-    try:
-        country = pycountry.countries.get(alpha_2=code.upper())
-        return country.name
-    except KeyError:
-        return None
 
 st.markdown(
     """
@@ -65,8 +57,6 @@ def get_abuseipdb_report(ip_address):
     try:
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()  # Raise an exception for bad status codes
-        with open('abuseipdbreport.txt', 'w') as f:
-            json.dump(response.json(), f, indent=4)
         return response.json()
     except requests.exceptions.RequestException as e:
         print(f"Error fetching AbuseIPDB report: {e}")
@@ -178,7 +168,7 @@ Who.is: No API limitations specified">API limitations</a>
                     "Tags": vt_report.get("data", {}).get("attributes", {}).get("tags", []) if vt_report else [],
                 },
                 "AbuseIPDB": {
-                    "Country Code": convert_country_code(abuseipdb_report.get("data", {}).get("countryCode", "")) if abuseipdb_report else "",
+                    "Country Code": abuseipdb_report.get("data", {}).get("countryCode", "") if abuseipdb_report else "",
                     "ISP": abuseipdb_report.get("data", {}).get("isp", "") if abuseipdb_report else "",
                     "Abuse Confidence Score": abuseipdb_report.get("data", {}).get("abuseConfidenceScore", 0) if abuseipdb_report else 0,
                     "Total Reports": abuseipdb_report.get("data", {}).get("totalReports", 0) if abuseipdb_report else 0,
