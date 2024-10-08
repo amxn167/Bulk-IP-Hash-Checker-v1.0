@@ -4,6 +4,19 @@ import json
 import pandas as pd
 import re
 
+st.markdown(
+    """
+    <style>
+    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
+    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
+    .viewerBadge_text__1JaDK {
+        display: none;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # VirusTotal API Key
 VT_API_KEY = "b208107450f8af1b55f735fe4377820a4b6baef21d5734c383a099e3271796ee"
 
