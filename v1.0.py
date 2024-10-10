@@ -18,13 +18,14 @@ st.markdown(
 )
 
 # VirusTotal API Key
-VT_API_KEY = "b208107450f8af1b55f735fe4377820a4b6baef21d5734c383a099e3271796ee"
+VT_API_KEY = st.secrets["vtkey"]
 
 # AbuseIPDB API Key
-ABUSEIPDB_API_KEY = "a81598f36599471d707ce45964fa0eaddd91127e934f7dbb52b33d829adc0e9982b3ce83334d3546"
+ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
 
 # Hybrid-Analysis API Key
-HYBRID_API_KEY = "353qykml83fafbd44gyra3nlc99268b99euha3880b9f6801e41fgho52db60e64"
+HYBRID_API_KEY = st.secrets["hybridkey"]
+
 
 # Function to get VirusTotal report
 def get_vt_report(ip_address):
@@ -220,7 +221,7 @@ Who.is: No API limitations specified">API limitations</a>
                                    "Country": d["VirusTotal"]["Country"], 
                                    "ASN": d["VirusTotal"]["ASN"], 
                                    "Tags": ', '.join(d["VirusTotal"]["Tags"]),
-                                   "Link": f"https://www.virustotal.com/gui/ip-address/{d['IP Address']}"} for d in data])
+                                   "Link": f"https://www.virustotal.com/gui/ip-address/{d['IP Address']}"} for d in data if d["IP Address"] is not None and d["IP Address"] != ""])
             st.write("VirusTotal Report:")
             st.write(df_vt)
         if "AbuseIPDB" in reports:
@@ -230,15 +231,14 @@ Who.is: No API limitations specified">API limitations</a>
                                           "Abuse Confidence Score": f"{d['AbuseIPDB']['Abuse Confidence Score']}/100",
                                           "Total Reports": d["AbuseIPDB"]["Total Reports"], 
                                           "Last Reported At": d["AbuseIPDB"]["Last Reported At"],
-                                          "Link": f"https://www.abuseipdb.com/check/{d['IP Address']}"} for d in data])
-            st.write("AbuseIPDB Report :")
+                                          "Link": f"https://www.abuseipdb.com/check/{d['IP Address']}"} for d in data if d["IP Address"] is not None and d["IP Address"] != ""])
             st.write(df_abuseipdb)
         if "Who.is" in reports:
             df_whois = pd.DataFrame([{"IP Address": d["IP Address"], 
                                       "Organization": d ["Who.is"]["Organization"], 
                                       "CIDR": d["Who.is"]["CIDR"], 
                                       "Range": d["Who.is"]["Range"],
-                                      "Link": f"https://who.is/whois-ip/ip-address/{d['IP Address']}"} for d in data])
+                                      "Link": f"https://who.is/whois-ip/ip-address/{d['IP Address']}"} for d in data if d["IP Address"] is not None and d["IP Address"] != ""])
             st.write("Who.is Report:")
             st.write(df_whois)
 
