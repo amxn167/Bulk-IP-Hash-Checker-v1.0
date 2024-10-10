@@ -38,17 +38,6 @@ def get_vt_report(ip_address):
     except requests.exceptions.RequestException as e:
         print(f"An error occurred while fetching VT report: {e}")
         return None
-# Function to get VirusTotal report
-# def get_vt_report(ip_address):
-#     url = "https://www.virustotal.com/vtapi/v2/ip-address/report"
-#     params = {"apikey": VT_API_KEY, "ip": ip_address}
-#     try:
-#         response = requests.get(url, params=params)
-#         response.raise_for_status()  # Raise an exception for bad status codes
-#         return response.json()
-#     except requests.exceptions.RequestException as e:
-#         print(f"Error fetching VirusTotal report: {e}")
-#         return None
 
 # Function to get AbuseIPDB report
 def get_abuseipdb_report(ip_address):
@@ -100,7 +89,7 @@ def get_vt_report_hash(hash_value):
     params = {"apikey": VT_API_KEY, "resource": hash_value}
     try:
         response = requests.get(url, params=params)
-        response.raise_for_status()  # Raise an exception for bad status codes
+        response.raise_for_status()  
         with open('vt_report.txt', 'w') as f:
             json.dump(response.json(), f, indent=4)
         return response.json()
@@ -148,16 +137,6 @@ Who.is: No API limitations specified">API limitations</a>
                 whois_report = get_whois_report(ip_address)
             row = {
                 "IP Address": ip_address,
-                # "VirusTotal": {
-                #     "Community Score": vt_report.get("stats", {}).get("malicious", 0) if vt_report else "",
-                #     "Detected Vendors": vt_report.get("stats", {}).get("malicious_vendors", 0) if vt_report else "",
-                #     "Tags": vt_report.get("tags", []) if vt_report else [],
-                #     "Country": vt_report.get("country", "") if vt_report else "",
-                #     "ASN": vt_report.get("asn", "") if vt_report else "",
-                #     "Detected URLs": len(vt_report.get("detected_urls", [])) if vt_report else 0,
-                #     "Verbose Message": vt_report.get("verbose_msg", "") if vt_report else "",
-                #     "Stats": vt_report.get("stats", {}) if vt_report else {}
-                # },
                 "VirusTotal": {
                     "Malicious": vt_report.get("data", {}).get("attributes", {}).get("last_analysis_stats", {}).get("malicious", 0) if vt_report else "",
                     "Suspicious": vt_report.get("data", {}).get("attributes", {}).get("last_analysis_stats", {}).get("suspicious", 0) if vt_report else "",
@@ -197,21 +176,6 @@ Who.is: No API limitations specified">API limitations</a>
                 row["Who.is"]["CIDR"] = cidr
                 row["Who.is"]["Range"] = ip_range
             data.append(row)
-        # if "VirusTotal" in reports:
-        #     df_vt = pd.DataFrame([{"IP Address": d["IP Address"], 
-        #                            "Community Score": d["VirusTotal"]["Community Score"], 
-        #                            "Detected Vendors": d["VirusTotal"]["Detected Vendors"], 
-        #                            "Tags": ', '.join(d["VirusTotal"]["Tags"]), 
-        #                            "Country": d["VirusTotal"]["Country"], 
-        #                            "ASN": d["VirusTotal"]["ASN"], 
-        #                            "Detected URLs": d["VirusTotal"]["Detected URLs"], 
-        #                            "Verbose Message": d["VirusTotal"]["Verbose Message"], 
-        #                            "Harmless": d["VirusTotal"]["Stats"].get("harmless", 0), 
-        #                            "Malicious": d["VirusTotal"]["Stats"].get("malicious", 0), 
-        #                            "Suspicious": d["VirusTotal"]["Stats"].get("suspicious", 0), 
-        #                            "Undetected": d["VirusTotal"]["Stats"].get("undetected", 0)} for d in data])
-        #     st.write("VirusTotal Report:")
-        #     st.write(df_vt)
         if "VirusTotal" in reports:
             df_vt = pd.DataFrame([{"IP Address": d["IP Address"], 
                                    "Malicious": f"{d['VirusTotal']['Malicious']}/94",
@@ -284,15 +248,6 @@ Hybrid-Analysis: 100 requests per day">API limitations</a>
                     "Stats": vt_report.get("stats", {}) if vt_report else {},
                     "Total": vt_report.get("total", "") if vt_report else {}
                 },
-                # "Hybrid-Analysis": {
-                #     "Job ID": hybrid_report.get("job_id", "") if hybrid_report else "",
-                #     "SHA256": hybrid_report.get("sha256", "") if hybrid_report else "",
-                #     "MD5": hybrid_report.get("md5", "") if hybrid_report else "",
-                #     "Detected Vendors": hybrid_report.get("detected_vendors", 0) if hybrid_report else 0,
-                #     "Detected URLs": len(hybrid_report.get("detected_urls", [])) if hybrid_report else 0,
-                #     "Verbose Message": hybrid_report.get("verbose_msg", "") if hybrid_report else "",
-                #     "Stats": hybrid_report.get("stats", {}) if hybrid_report else {}
-                # }
                 "Hybrid-Analysis": {
                     "Threat Score": hybrid_report[0].get("threat_score", 0) if hybrid_report else 0,
                     "Threat Level": hybrid_report[0].get("threat_level", "") if hybrid_report else "",
@@ -312,35 +267,18 @@ Hybrid-Analysis: 100 requests per day">API limitations</a>
             data.append(row)
         if "VirusTotal" in reports:
             df_vt = pd.DataFrame([{"Hash Value": d["Hash Value"], 
-                                #    "Scan ID": d["VirusTotal"]["Scan ID"], 
-                                #    "SHA256": d["VirusTotal"]["SHA256"], 
-                                #    "MD5": d["VirusTotal"]["MD5"],
                                    "Score": f"{d['VirusTotal']['Malicious']}/{d['VirusTotal']['Total']}",
-                                #    "Detected Vendors": d["VirusTotal"]["Detected Vendors"], 
-                                #    "Detected URLs": d["VirusTotal"]["Detected URLs"], 
                                    "Verbose Message": d["VirusTotal"]["Verbose Message"], 
-                                #    "Harmless": d["VirusTotal"]["Stats"].get("harmless", 0), 
-                                #    "Malicious": d["VirusTotal"]["Stats"].get("malicious", 0), 
-                                #    "Suspicious": d["VirusTotal"]["Stats"].get("suspicious", 0), 
-                                #    "Undetected": d["VirusTotal"]["Stats"].get("undetected", 0),
                                    "Link": d["VirusTotal"]["Link"]
                                    } for d in data])
             st.write("VirusTotal Report:")
             st.write(df_vt)
         if "Hybrid-Analysis" in reports:
             df_hybrid = pd.DataFrame([{"Hash Value": d["Hash Value"], 
-                                    #   "Threat Score": d["Hybrid-Analysis"].get("Threat Score", 0) if "Hybrid-Analysis" in d else 0,
                                       "Threat Level": d["Hybrid-Analysis"].get("Threat Level", "") if "Hybrid-Analysis" in d else "",
                                       "Verdict": d["Hybrid-Analysis"].get("Verdict", "") if "Hybrid-Analysis" in d else "",
                                       "AV Detect": f"{d['Hybrid-Analysis'].get('AV Detect', 0)}/100" if "Hybrid-Analysis" in d else 0,
                                       "VX Family": d["Hybrid-Analysis"].get("VX Family", "") if "Hybrid-Analysis" in d else "",
-                                    #   "URL Analysis": d["Hybrid-Analysis"].get("URL Analysis", "") if "Hybrid-Analysis" in d else "",
-                                    #   "Mitre Attcks": d["Hybrid-Analysis"].get("Mitre Attcks", []) if "Hybrid-Analysis" in d else [],
-                                    #   "Classification Tags": d["Hybrid-Analysis"].get("Classification Tags", []) if "Hybrid-Analysis" in d else [],
-                                    #   "Tags": d["Hybrid-Analysis"].get("Tags", []) if "Hybrid-Analysis" in d else [],
-                                    #   "Detected Vendors": d["Hybrid-Analysis"].get("Detected Vendors", 0) if "Hybrid-Analysis" in d else 0,
-                                    #   "Detected URLs": d["Hybrid-Analysis"].get("Detected URLs", []) if "Hybrid-Analysis" in d else 0,
-                                    #   "Stats": d["Hybrid-Analysis"].get("Stats", {}) if "Hybrid-Analysis" in d else {}
                                       "Link": f"https://www.hybrid-analysis.com/sample/{d['Hash Value']}"
                                       } for d in data])
             st.write("Hybrid-Analysis Report:")
