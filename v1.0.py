@@ -360,8 +360,7 @@ with tab_domain:
 
 with tab_about:
     st.markdown("""
-<a href="#" data-toggle="tooltip" title="Upcoming:
-Upcoming Updates: Any.Run, URLhaus, MISP, CAPE, Malshare, Valhalla, Hashlookup">ChangeLog</a>
+<a href="#" data-toggle="tooltip" title="Upcoming Updates: Any.Run, URLhaus, MISP, CAPE, Malshare, Valhalla, Hashlookup">Upcoming</a>
 """, unsafe_allow_html=True)
     st.title("ChangeLog:")
     st.subheader("19/01/2025:")
