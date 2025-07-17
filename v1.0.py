@@ -22,7 +22,9 @@ st.markdown(
 VT_API_KEY = st.secrets["vtkey"]
 
 # AbuseIPDB API Key
-ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
+# ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
+#ALT
+ABUSEIPDB_API_KEY = st.secrets["aipdkey_alt"]
 
 # Hybrid-Analysis API Key
 HYBRID_API_KEY = st.secrets["hybridkey"]
