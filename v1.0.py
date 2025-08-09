@@ -18,16 +18,28 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# # VirusTotal API Key
+# VT_API_KEY = st.secrets["vtkey"]
+
+# # AbuseIPDB API Key
+# ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
+
+# # Hybrid-Analysis API Key
+# HYBRID_API_KEY = st.secrets["hybridkey"]
 # VirusTotal API Key
-VT_API_KEY = st.secrets["vtkey"]
+VT_API_KEY = "b208107450f8af1b55f735fe4377820a4b6baef21d5734c383a099e3271796ee"
 
 # AbuseIPDB API Key
+<<<<<<< HEAD
 ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
 #ALT
 # ABUSEIPDB_API_KEY = st.secrets["aipdkey_alt"]
+=======
+ABUSEIPDB_API_KEY = "a81598f36599471d707ce45964fa0eaddd91127e934f7dbb52b33d829adc0e9982b3ce83334d3546"
+>>>>>>> 8ed4e7e (Hash value addition)
 
 # Hybrid-Analysis API Key
-HYBRID_API_KEY = st.secrets["hybridkey"]
+HYBRID_API_KEY = "353qykml83fafbd44gyra3nlc99268b99euha3880b9f6801e41fgho52db60e64"
 
 
 # Function to get VirusTotal report
@@ -262,7 +274,9 @@ Hybrid-Analysis: 100 requests per day">API limitations</a>
             row = {
                 "Hash Value": hash_value,
                 "VirusTotal": {
+                    "MD5": vt_report.get("data", {}).get("attributes", {}).get("md5", 0) if vt_report else "",
                     "SHA1": vt_report.get("data", {}).get("attributes", {}).get("sha1", 0) if vt_report else "",
+                    "SHA256": vt_report.get("data", {}).get("attributes", {}).get("sha256", 0) if vt_report else "",
                     "Malicious": vt_report.get("data", {}).get("attributes", {}).get("last_analysis_stats", {}).get("malicious", 0) if vt_report else "No matches found!",
                     "Suspicious": vt_report.get("data", {}).get("attributes", {}).get("last_analysis_stats", {}).get("suspicious", 0) if vt_report else "",
                     "Undetected": vt_report.get("data", {}).get("attributes", {}).get("last_analysis_stats", {}).get("undetected", 0) if vt_report else "",
@@ -289,10 +303,13 @@ Hybrid-Analysis: 100 requests per day">API limitations</a>
         
         if "VirusTotal" in reports:
             df_vt = pd.DataFrame([{
-                "SHA1": d["Hash Value"],
+                "Input Value": d["Hash Value"],
                 "Malicious Rating": f"{d['VirusTotal']['Malicious']}/{d['VirusTotal']['Malicious'] + d['VirusTotal']['Suspicious'] + d['VirusTotal']['Undetected'] + d['VirusTotal']['Harmless']}" if d['VirusTotal']['Malicious'] != 0 else "No matches found",
                 "Tags": d["VirusTotal"]["Tags"],
                 "Popular Threat Name": d["VirusTotal"]["Popular Threat Classification"],
+                "SHA1": d["VirusTotal"]["SHA1"],
+                "SHA256": d["VirusTotal"]["SHA256"],
+                "MD5": d["VirusTotal"]["MD5"],
                 "Link": f"https://www.virustotal.com/gui/file/{d['Hash Value']}"
             } for d in data])
             
