@@ -18,28 +18,21 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# # VirusTotal API Key
-# VT_API_KEY = st.secrets["vtkey"]
-
-# # AbuseIPDB API Key
-# ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
-
-# # Hybrid-Analysis API Key
-# HYBRID_API_KEY = st.secrets["hybridkey"]
 # VirusTotal API Key
-VT_API_KEY = "b208107450f8af1b55f735fe4377820a4b6baef21d5734c383a099e3271796ee"
+VT_API_KEY = st.secrets["vtkey"]
 
 # AbuseIPDB API Key
-<<<<<<< HEAD
 ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
-#ALT
-# ABUSEIPDB_API_KEY = st.secrets["aipdkey_alt"]
-=======
-ABUSEIPDB_API_KEY = "a81598f36599471d707ce45964fa0eaddd91127e934f7dbb52b33d829adc0e9982b3ce83334d3546"
->>>>>>> 8ed4e7e (Hash value addition)
 
 # Hybrid-Analysis API Key
-HYBRID_API_KEY = "353qykml83fafbd44gyra3nlc99268b99euha3880b9f6801e41fgho52db60e64"
+HYBRID_API_KEY = st.secrets["hybridkey"]
+
+# # AbuseIPDB API Key
+
+# ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
+#ALT
+# ABUSEIPDB_API_KEY = st.secrets["aipdkey_alt"]
+
 
 
 # Function to get VirusTotal report
@@ -405,3 +398,4 @@ with tab_about:
 
     st.subheader("Contact:")
     st.write("If you have any ideas, questions or concerns, please feel free to contact Mohammed Aman")
+
