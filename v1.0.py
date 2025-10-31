@@ -22,7 +22,7 @@ st.markdown(
 VT_API_KEY = st.secrets["vtkey"]
 
 # AbuseIPDB API Key
-ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
+#ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
 
 # Hybrid-Analysis API Key
 HYBRID_API_KEY = st.secrets["hybridkey"]
@@ -31,7 +31,7 @@ HYBRID_API_KEY = st.secrets["hybridkey"]
 
 # ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
 #ALT
-# ABUSEIPDB_API_KEY = st.secrets["aipdkey_alt"]
+ABUSEIPDB_API_KEY = st.secrets["aipdkey_alt"]
 
 
 
@@ -398,4 +398,5 @@ with tab_about:
 
     st.subheader("Contact:")
     st.write("If you have any ideas, questions or concerns, please feel free to contact Mohammed Aman")
+
 
