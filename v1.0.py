@@ -29,9 +29,9 @@ HYBRID_API_KEY = st.secrets["hybridkey"]
 
 # # AbuseIPDB API Key
 
-# ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
+ABUSEIPDB_API_KEY = st.secrets["aipdbkey"]
 #ALT
-ABUSEIPDB_API_KEY = st.secrets["aipdkey_alt"]
+#ABUSEIPDB_API_KEY = st.secrets["aipdkey_alt"]
 
 
 
@@ -398,5 +398,6 @@ with tab_about:
 
     st.subheader("Contact:")
     st.write("If you have any ideas, questions or concerns, please feel free to contact Mohammed Aman")
+
 
 
