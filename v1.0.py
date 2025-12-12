@@ -224,6 +224,24 @@ Who.is: No API limitations specified">API limitations</a>
                                           "Last Reported At": d["AbuseIPDB"]["Last Reported At"],
                                           "Link": f"https://www.abuseipdb.com/check/{d['IP Address']}"} for d in data if d["IP Address"] is not None and d["IP Address"] != ""])
             st.write(df_abuseipdb)
+        if "VirusTotal" in reports and "AbuseIPDB" in reports:
+            df_combined = pd.DataFrame([{
+                "External IP": d["IP Address"],
+                "Origin/ASN": d["AbuseIPDB"]["ISP"],
+                "Country": d["AbuseIPDB"]["Country Code"],
+                "AbuseIPDBScore": f"{d['AbuseIPDB']['Abuse Confidence Score']}/100",
+                "AbuseIPDB Report Time": d["AbuseIPDB"]["Last Reported At"],
+                "VirusTotal Rating": f"{d['VirusTotal']['Malicious']}/94",
+                "Risk Verdict": (
+                    "Malicious" if d["VirusTotal"]["Malicious"] >= 5 or d["AbuseIPDB"]["Abuse Confidence Score"] >= 50 else
+                    "Suspicious" if (1 <= d["VirusTotal"]["Malicious"] < 5) or (10 <= d["AbuseIPDB"]["Abuse Confidence Score"] < 50) else
+                    "Clean"
+                )} for d in data 
+              if d["IP Address"] is not None and d["IP Address"] != ""
+              and "VirusTotal" in d and "AbuseIPDB" in d
+            ])
+            st.write("Combined Threat Summary:")
+            st.write(df_combined)
         if "Who.is" in reports:
             df_whois = pd.DataFrame([{"IP Address": d["IP Address"], 
                                       "Organization": d ["Who.is"]["Organization"], 
@@ -398,6 +416,7 @@ with tab_about:
 
     st.subheader("Contact:")
     st.write("If you have any ideas, questions or concerns, please feel free to contact Mohammed Aman")
+
 
 
 
