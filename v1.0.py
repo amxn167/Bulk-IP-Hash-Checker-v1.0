@@ -179,7 +179,8 @@ Who.is: No API limitations specified">API limitations</a>
                     "ISP": abuseipdb_report.get("data", {}).get("isp", "") if abuseipdb_report else "",
                     "Abuse Confidence Score": abuseipdb_report.get("data", {}).get("abuseConfidenceScore", 0) if abuseipdb_report else 0,
                     "Total Reports": abuseipdb_report.get("data", {}).get("totalReports", 0) if abuseipdb_report else 0,
-                    "Last Reported At": abuseipdb_report.get("data", {}).get("lastReportedAt", "") if abuseipdb_report else ""
+                    "Last Reported At": abuseipdb_report.get("data", {}).get("lastReportedAt", "") if abuseipdb_report else "",
+                    "Usage Type": abuseipdb_report.get("data", {}).get("usageType", "") if abuseipdb_report else ""
                 },
                 "Who.is": {
                     "Organization": "",
@@ -222,6 +223,7 @@ Who.is: No API limitations specified">API limitations</a>
                                           "Abuse Confidence Score": f"{d['AbuseIPDB']['Abuse Confidence Score']}/100",
                                           "Total Reports": d["AbuseIPDB"]["Total Reports"], 
                                           "Last Reported At": d["AbuseIPDB"]["Last Reported At"],
+                                          "Usage Type": d["AbuseIPDB"]["Usage Type"],
                                           "Link": f"https://www.abuseipdb.com/check/{d['IP Address']}"} for d in data if d["IP Address"] is not None and d["IP Address"] != ""])
             st.write(df_abuseipdb)
         if "VirusTotal" in reports and "AbuseIPDB" in reports:
@@ -416,6 +418,7 @@ with tab_about:
 
     st.subheader("Contact:")
     st.write("If you have any ideas, questions or concerns, please feel free to contact Mohammed Aman")
+
 
 
 
